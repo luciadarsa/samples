@@ -140,7 +140,7 @@ void TestRemoveNodeDoesntExist(int numElements, int id)
 		list.push_front(ListNode(i));
 	}
 
-	auto it = std::find(list.begin(), list.end(), id);				// This "find" just works for basic types such as int, string, etc.
+	auto it = std::find(list.begin(), list.end(), id);
 	assert(it == list.end());
 
 	assert(list.size() == numElements);
