@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6f900146-2347-4379-9b0f-13f5c84278bd}</ProjectGuid>
-    <RootNamespace>ListSTL</RootNamespace>
+    <ProjectGuid>{b9e2cabb-92f9-4af3-99af-e8d14083d832}</ProjectGuid>
+    <RootNamespace>ListCPPTemplate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -142,6 +142,7 @@
     <ClCompile Include="TestList.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="List.h" />
     <ClInclude Include="SampleClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

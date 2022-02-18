@@ -1,11 +1,11 @@
 #pragma once
 
-class ListNode
+class SampleClass
 {
 public:
-	ListNode(int identifier) { id = identifier;  }
+	SampleClass(int identifier) { id = identifier;  }
 
-	bool operator==(const ListNode& other) const
+	bool operator==(const SampleClass& other) const
 	{
 		return id == other.id;
 	}

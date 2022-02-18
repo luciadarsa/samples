@@ -1,33 +1,33 @@
-#include <list>
-#include "SampleClass.h"
+#include <stdio.h>
 #include <assert.h>
+#include "SampleClass.h"
+#include "list.h"
 
-void PrintList(const char* functionName, std::list<SampleClass>& list)
+void PrintList(const char* functionName, List<SampleClass>& list)
 {
 	printf("%s: ", functionName);
-	auto it = list.begin();
-	for (auto it = list.begin(); it != list.end(); it++)
+	for (auto pListNode = list.front(); pListNode; pListNode = pListNode->next())
 	{
-		printf("%d, ", (*it).id);
+		printf("%d, ", (*pListNode)->id);
 	}
 	printf("\n");
 }
 
+
 void TestAddRemove()
 {
-	std::list<SampleClass> list;
-
+	List<SampleClass> list;
 	SampleClass sample(1);
+
 	list.push_front(sample);
-	auto const & front = list.begin();
-	assert((*front).id == 1);
-	list.pop_front();
-	PrintList(__FUNCTION__, list);
+	ListNode<SampleClass>* pListNode = list.pop_front();
+	assert((*pListNode)->id == 1);
+	delete pListNode;
 }
 
 void TestAddHead(int numElements)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -35,11 +35,11 @@ void TestAddHead(int numElements)
 		list.push_front(sample);
 	}
 
-	auto it = list.begin();
+	auto pListNode = list.front();
 	for (int i = numElements - 1; i >= 0; i--)
 	{
-		assert((*it).id == i);
-		++it;
+		assert((*pListNode)->id == i);
+		pListNode = pListNode->next();
 	}
 
 	assert(list.size() == numElements);
@@ -49,7 +49,7 @@ void TestAddHead(int numElements)
 
 void TestAddTail(int numElements)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -57,11 +57,11 @@ void TestAddTail(int numElements)
 		list.push_back(sample);
 	}
 
-	auto it = list.begin();
+	auto pListNode = list.front();
 	for (int i = 0; i < numElements; i++)
 	{
-		assert((*it).id == i);
-		++it;
+		assert((*pListNode)->id == i);
+		pListNode = pListNode->next();
 	}
 
 	assert(list.size() == numElements);
@@ -72,7 +72,7 @@ void TestAddTail(int numElements)
 
 void TestRemoveHead(int numElements)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -83,9 +83,8 @@ void TestRemoveHead(int numElements)
 	int index = numElements - 1;
 	while (list.size() > 0)
 	{
-		auto const & head = list.front();
-		assert(head.id == index);
-		list.pop_front();
+		auto pListNode = list.pop_front();
+		assert((*pListNode)->id == index);
 		--index;
 	}
 	assert(list.size() == 0);
@@ -95,7 +94,7 @@ void TestRemoveHead(int numElements)
 
 void TestRemoveTail(int numElements)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -106,9 +105,8 @@ void TestRemoveTail(int numElements)
 	int index = 0;
 	while (list.size() > 0)
 	{
-		auto const & tail = list.back();
-		assert(tail.id == index);
-		list.pop_back();
+		auto pListNode = list.pop_back();
+		assert((*pListNode)->id == index);
 		++index;
 	}
 	assert(list.size() == 0);
@@ -116,10 +114,9 @@ void TestRemoveTail(int numElements)
 	PrintList(__FUNCTION__, list);
 }
 
-
 void TestRemoveNodeExists(int numElements, int id)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -127,11 +124,12 @@ void TestRemoveNodeExists(int numElements, int id)
 		list.push_front(sample);
 	}
 
-	auto it = std::find(list.begin(), list.end(), id);
+	SampleClass sampleToFind(id);
+	auto pListNode = list.find(sampleToFind);
 
-	assert(it != list.end());
-	assert((*it).id == id);
-	list.erase(it);
+	assert(pListNode != nullptr);
+	assert((*pListNode)->id == id);
+	list.erase(pListNode);
 
 	assert(list.size() == numElements - 1);
 
@@ -141,7 +139,7 @@ void TestRemoveNodeExists(int numElements, int id)
 
 void TestRemoveNodeDoesntExist(int numElements, int id)
 {
-	std::list<SampleClass> list;
+	List<SampleClass> list;
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -149,8 +147,9 @@ void TestRemoveNodeDoesntExist(int numElements, int id)
 		list.push_front(sample);
 	}
 
-	auto it = std::find(list.begin(), list.end(), id);
-	assert(it == list.end());
+	SampleClass sampleToFind(id);
+	auto pListNode = list.find(sampleToFind);
+	assert(pListNode == nullptr);
 
 	assert(list.size() == numElements);
 
