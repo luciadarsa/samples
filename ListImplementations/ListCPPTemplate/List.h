@@ -22,14 +22,9 @@ public:
 		assert(_pPrev == nullptr);
 	}
 
-	T& operator*()
+	T& value()
 	{
 		return _value;
-	}
-
-	T* operator->()
-	{
-		return &_value;
 	}
 
 	ListNode<T>* next() { return _pNext; }

@@ -8,7 +8,7 @@ void PrintList(const char* functionName, List<SampleClass>& list)
 	printf("%s: ", functionName);
 	for (auto pListNode = list.front(); pListNode; pListNode = pListNode->next())
 	{
-		printf("%d, ", (*pListNode)->id);
+		printf("%d, ", pListNode->value().id);
 	}
 	printf("\n");
 }
@@ -21,7 +21,7 @@ void TestAddRemove()
 
 	list.push_front(sample);
 	ListNode<SampleClass>* pListNode = list.pop_front();
-	assert((*pListNode)->id == 1);
+	assert(pListNode->value().id == 1);
 	delete pListNode;
 }
 
@@ -38,7 +38,7 @@ void TestAddHead(int numElements)
 	auto pListNode = list.front();
 	for (int i = numElements - 1; i >= 0; i--)
 	{
-		assert((*pListNode)->id == i);
+		assert(pListNode->value().id == i);
 		pListNode = pListNode->next();
 	}
 
@@ -60,7 +60,7 @@ void TestAddTail(int numElements)
 	auto pListNode = list.front();
 	for (int i = 0; i < numElements; i++)
 	{
-		assert((*pListNode)->id == i);
+		assert(pListNode->value().id == i);
 		pListNode = pListNode->next();
 	}
 
@@ -84,7 +84,7 @@ void TestRemoveHead(int numElements)
 	while (list.size() > 0)
 	{
 		auto pListNode = list.pop_front();
-		assert((*pListNode)->id == index);
+		assert(pListNode->value().id == index);
 		--index;
 	}
 	assert(list.size() == 0);
@@ -106,7 +106,7 @@ void TestRemoveTail(int numElements)
 	while (list.size() > 0)
 	{
 		auto pListNode = list.pop_back();
-		assert((*pListNode)->id == index);
+		assert(pListNode->value().id == index);
 		++index;
 	}
 	assert(list.size() == 0);
@@ -128,7 +128,7 @@ void TestRemoveNodeExists(int numElements, int id)
 	auto pListNode = list.find(sampleToFind);
 
 	assert(pListNode != nullptr);
-	assert((*pListNode)->id == id);
+	assert(pListNode->value().id == id);
 	list.erase(pListNode);
 
 	assert(list.size() == numElements - 1);
